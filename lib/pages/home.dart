@@ -8,9 +8,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home ${user.email}'),
-      ),
+//      appBar: AppBar(
+//        title: Text('Home ${user.email}'),
+//      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users')
