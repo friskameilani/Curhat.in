@@ -1,8 +1,10 @@
+import 'package:curhatin/models/user.dart';
 import 'package:curhatin/pages/home.dart';
 import 'package:curhatin/tabRoutes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:curhatin/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _email, _password;
+  String error = '';
   final linearGradient = LinearGradient(
     colors: [
       Color.fromARGB(255, 125, 222, 157),
@@ -18,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
     ],
   ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
+  final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,11 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                 ),
                 logInButton(),
+                SizedBox(height: 12.0),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                )
               ])),
         ));
   }
@@ -68,13 +77,17 @@ class _LoginPageState extends State<LoginPage> {
       // TODO: Login to Firebase
       formState.save();
       try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
-
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
-        // Home(user: user)));
+        // FirebaseUser user = (await FirebaseAuth.instance
+        //         .signInWithEmailAndPassword(email: _email, password: _password))
+        //     .user;
+        dynamic user = await _auth.signInWithEmailPassword(_email, _password);
+        if (user == null) {
+          setState(() => error = 'Could Not Sign in with those credentials');
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
+          // Home(user: user)));
+        }
       } catch (e) {
         print("hello");
       }

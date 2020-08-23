@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curhatin/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key, @required this.user}) : super(key: key);
-  final FirebaseUser user;
+  final User user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

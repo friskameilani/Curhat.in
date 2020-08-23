@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curhatin/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/pages/home.dart';
 import 'package:curhatin/pages/chat.dart';
@@ -7,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class TabRoutes extends StatefulWidget {
   const TabRoutes({Key key, @required this.user}) : super(key: key);
-  final FirebaseUser user;
+  final User user;
   @override
   _TabRoutesState createState() => _TabRoutesState();
 }
