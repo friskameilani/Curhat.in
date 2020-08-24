@@ -1,13 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curhatin/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/setup/signIn.dart';
 
+import '../tabRoutes.dart';
+
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
+
+final AuthService auth = AuthService();
+String error = '';
 
 class _SignUpPageState extends State<SignUpPage> {
   String _email, _password;
@@ -58,6 +64,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                 ),
                 signUpButton(),
+                SizedBox(height: 12.0),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                )
               ],
             ),
           ),
@@ -111,20 +122,28 @@ class _SignUpPageState extends State<SignUpPage> {
     if (formState.validate()) {
       formState.save();
       try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _email, password: _password))
-            .user;
-        CollectionReference usercollection =
-            (await Firestore.instance.collection('users'));
-        await usercollection.document(user.uid).setData({
-          'name': user.email,
-          'age': 20,
-          'hobby': 'none',
-          'role': 'user',
-        });
-        user.sendEmailVerification();
-        Navigator.of(context).pop();
+        // FirebaseUser user = (await FirebaseAuth.instance
+        //         .createUserWithEmailAndPassword(
+        //             email: _email, password: _password))
+        //     .user;
+        dynamic user = await auth.registerWithEmailPassword(_email, _password);
+        // CollectionReference usercollection =
+        //     (await Firestore.instance.collection('users'));
+        // await usercollection.document(user.uid).setData({
+        //   'name': user.email,
+        //   'age': 20,
+        //   'hobby': 'none',
+        //   'role': 'user',
+        // });
+        // user.sendEmailVerification();
+        // Navigator.of(context).pop();
+        if (user == null) {
+          setState(() => error = 'User already exists with that email');
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
+          // Home(user: user)));
+        }
       } catch (e) {
         print("hello");
       }

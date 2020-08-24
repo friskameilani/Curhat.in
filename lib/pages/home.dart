@@ -1,13 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
+import 'package:curhatin/models/usersChat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key, @required this.user}) : super(key: key);
   final User user;
   @override
   Widget build(BuildContext context) {
+    final users = Provider.of<List<UsersChat>>(context);
+    users.forEach((chat) {
+      print(chat.name);
+      print(chat.age);
+      print(chat.role);
+    });
     return Scaffold(
 //      appBar: AppBar(
 //        title: Text('Home ${user.email}'),
