@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
+import 'package:curhatin/pages/counselorDetail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final users = Provider.of<List<UsersChat>>(context);
+    print(users);
     users.forEach((chat) {
       print(chat.name);
       print(chat.age);
@@ -33,6 +35,13 @@ class Home extends StatelessWidget {
                   leading: CircleAvatar(backgroundColor: Colors.blue),
                   title: Text(users[index].name),
                   subtitle: Text(users[index].role),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CounselorDetail(detail: users[index])));
+                  },
                 ),
               ),
             );

@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
-import 'package:curhatin/services/auth.dart';
 
 class DatabaseServices {
   final String uid;
 
   DatabaseServices({this.uid});
 
+  // get Firestore collection
   final CollectionReference userCollection =
       Firestore.instance.collection('users');
 
-  final DocumentReference singleUser =
-      Firestore.instance.collection('users').document();
+  //get Admin
+  final Query adminCollection =
+      Firestore.instance.collection('users').where('role', isEqualTo: 'admin');
 
+  // Create and update user data to firestore
   Future updateUserData(String name, String dept, int age) async {
     return await userCollection.document(uid).setData({
       'name': name,
@@ -22,7 +25,7 @@ class DatabaseServices {
     });
   }
 
-  //Generate chat list
+  //Map Users's Chat data to model
   List<UsersChat> _usersChatList(QuerySnapshot querySnapshot) {
     try {
       return querySnapshot.documents.map((doc) {
@@ -33,14 +36,31 @@ class DatabaseServices {
       }).toList();
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
-  // Stream<DocumentSnapshot> get singleUser {
-  //   return userCollection.snapshots();
-  // }
+  //Map User data to Model
+  UserData _userDataSnapshot(DocumentSnapshot snapshot) {
+    try {
+      return UserData(
+          uid: uid,
+          name: snapshot.data['name'],
+          age: snapshot.data['age'],
+          role: snapshot.data['role']);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
+  //Get All Users
   Stream<List<UsersChat>> get users {
-    return userCollection.snapshots().map(_usersChatList);
+    return adminCollection.snapshots().map(_usersChatList);
+  }
+
+  //Get current user data
+  Stream<UserData> get userData {
+    return userCollection.document(uid).snapshots().map(_userDataSnapshot);
   }
 }
