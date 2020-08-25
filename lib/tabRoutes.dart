@@ -100,10 +100,7 @@ class _TabRoutesState extends State<TabRoutes> {
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              new Container(
-                  child: Home(
-                user: widget.user,
-              )),
+              new Container(child: Home()),
               new Container(
                 child: ChatPage(),
               ),

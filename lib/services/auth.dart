@@ -7,7 +7,7 @@ class AuthService {
 
   //Returns a simplified instance of a user
   User _userFromFirebase(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid, email: user.email) : null;
   }
 
   // auth changed user stream
@@ -37,6 +37,7 @@ class AuthService {
       FirebaseUser user = result.user;
       var split = email.split('@');
       String name = split[0];
+
       //create new document for the user with uid
       await DatabaseServices(uid: user.uid).updateUserData(name, 'IPB', 20);
       return _userFromFirebase(user);

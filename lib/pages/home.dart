@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key key, @required this.user}) : super(key: key);
-  final User user;
+  // const Home({Key key, @required this.user}) : super(key: key);
+  // final User user;
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     final users = Provider.of<List<UsersChat>>(context);
     users.forEach((chat) {
       print(chat.name);
@@ -17,27 +19,42 @@ class Home extends StatelessWidget {
       print(chat.role);
     });
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('Home ${user.email}'),
-//      ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: Firestore.instance
-            .collection('users')
-            .document(user.uid)
-            .snapshots(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Text('Loading ...');
-            default:
-              return checkRole(snapshot.data);
-          }
-        },
+      appBar: AppBar(
+        title: Text('${user.email}'),
       ),
+      body: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Card(
+                margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                child: ListTile(
+                  leading: CircleAvatar(backgroundColor: Colors.blue),
+                  title: Text(users[index].name),
+                  subtitle: Text(users[index].role),
+                ),
+              ),
+            );
+          }),
+      // body: StreamBuilder<DocumentSnapshot>(
+      //   stream: Firestore.instance
+      //       .collection('users')
+      //       .document(user.uid)
+      //       .snapshots(),
+      //   builder:
+      //       (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      //     if (snapshot.hasError) {
+      //       return Text('Error: ${snapshot.error}');
+      //     }
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.waiting:
+      //         return Text('Loading ...');
+      //       default:
+      //         return checkRole(snapshot.data);
+      //     }
+      //   },
+      // ),
     );
   }
 
