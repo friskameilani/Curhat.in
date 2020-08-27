@@ -22,6 +22,7 @@ class Home extends StatelessWidget {
       print(chat.age);
       print(chat.role);
     });
+<<<<<<< HEAD
 
     return DefaultTabController(
       length: 6,
@@ -41,6 +42,32 @@ class Home extends StatelessWidget {
             children: [
               CounselorList(
                 type: 'Akademik',
+=======
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${user.email}'),
+        automaticallyImplyLeading: false,
+      ),
+      body: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Card(
+                margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                child: ListTile(
+                  leading: CircleAvatar(backgroundColor: Colors.blue),
+                  title: Text(users[index].name),
+                  subtitle: Text(users[index].role),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CounselorDetail(detail: users[index])));
+                  },
+                ),
+>>>>>>> 7cc685083912b16b3b844bba9a509e03d980f0f9
               ),
               ListView.builder(
                   itemCount: users.length,

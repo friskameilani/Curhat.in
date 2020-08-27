@@ -33,7 +33,7 @@ class _TabRoutesState extends State<TabRoutes> {
           }
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Text('Loading ...');
+              return Text("Loading...");
             default:
               return checkRole(snapshot.data);
           }

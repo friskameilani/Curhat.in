@@ -1,4 +1,5 @@
 import 'package:curhatin/models/user.dart';
+import 'package:curhatin/pages/forgotPassword.dart';
 import 'package:curhatin/pages/home.dart';
 import 'package:curhatin/tabRoutes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,42 +34,58 @@ class _LoginPageState extends State<LoginPage> {
           ),
           backgroundColor: Colors.white,
         ),
-        body: Container(
-          margin: EdgeInsets.all(20),
-          child: Form(
-              key: _formKey,
-              child: Column(children: [
-                titleField(),
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'Please type an email';
-                    }
-                  },
-                  onSaved: (input) => _email = input,
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input.length < 6) {
-                      return 'Your password needs to be at least 6 characters';
-                    }
-                  },
-                  onSaved: (input) => _password = input,
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                ),
-                logInButton(),
-                SizedBox(height: 12.0),
-                Text(
-                  error,
-                  style: TextStyle(color: Colors.red, fontSize: 14.0),
-                )
-              ])),
-        ));
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Form(
+                key: _formKey,
+                child: Column(children: [
+                  titleField(),
+                  TextFormField(
+                    validator: (input) {
+                      if (input.isEmpty) {
+                        return 'Please type an email';
+                      }
+                    },
+                    onSaved: (input) => _email = input,
+                    decoration: InputDecoration(labelText: 'Email'),
+                  ),
+                  TextFormField(
+                    validator: (input) {
+                      if (input.length < 6) {
+                        return 'Your password needs to be at least 6 characters';
+                      }
+                    },
+                    onSaved: (input) => _password = input,
+                    decoration: InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  ),
+                  logInButton(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Container(
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) => ForgotPassword()));
+                        },
+                        child: Text("Forgot password", style: TextStyle(color: Colors.grey), textAlign: TextAlign.right,),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  )
+                ])),
+          ),
+        )
+    );
   }
 
   Future<void> signIn() async {

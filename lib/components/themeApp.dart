@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ThemeApp extends StatefulWidget {
-  @override
-  _ThemeAppState createState() => _ThemeAppState();
-}
-
-class _ThemeAppState extends State<ThemeApp> {
+class ThemeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,14 +10,14 @@ class _ThemeAppState extends State<ThemeApp> {
           height: MediaQuery.of(context).size.width / 2,
           width: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Color(0xFF8FEEBF),
-                    Color(0xFF17B7BD),
-                  ]
-              )
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+              Color(0xFF8FEEBF),
+              Color(0xFF17B7BD),
+              ]
+            )
           ),
         ),
       ),
