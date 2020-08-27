@@ -7,22 +7,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   // const Home({Key key, @required this.user}) : super(key: key);
   // final User user;
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool isLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    isLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final users = Provider.of<List<UsersChat>>(context);
 
-    print(users);
-    users.forEach((chat) {
-      print(chat.name);
-      print(chat.age);
-      print(chat.role);
-    });
-<<<<<<< HEAD
+    // print(users);
+    // users.forEach((chat) {
+    //   print(chat.name);
+    //   print(chat.age);
+    //   print(chat.role);
+    // });
 
     return DefaultTabController(
       length: 6,
@@ -41,81 +52,23 @@ class Home extends StatelessWidget {
           body: new TabBarView(
             children: [
               CounselorList(
-                type: 'Akademik',
-=======
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${user.email}'),
-        automaticallyImplyLeading: false,
-      ),
-      body: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: Card(
-                margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                child: ListTile(
-                  leading: CircleAvatar(backgroundColor: Colors.blue),
-                  title: Text(users[index].name),
-                  subtitle: Text(users[index].role),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CounselorDetail(detail: users[index])));
-                  },
-                ),
->>>>>>> 7cc685083912b16b3b844bba9a509e03d980f0f9
+                type: 'akademik',
               ),
-              ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Card(
-                        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                        child: ListTile(
-                          leading: CircleAvatar(backgroundColor: Colors.blue),
-                          title: Text(users[index].name),
-                          subtitle: Text(users[index].role),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CounselorDetail(detail: users[index])));
-                          },
-                        ),
-                      ),
-                    );
-                  }),
-              ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Card(
-                        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                        child: ListTile(
-                          leading: CircleAvatar(backgroundColor: Colors.blue),
-                          title: Text(users[index].name),
-                          subtitle: Text(users[index].role),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CounselorDetail(detail: users[index])));
-                          },
-                        ),
-                      ),
-                    );
-                  }),
-              Text('Hello'),
-              Text('Hello'),
-              Text('Hello')
+              CounselorList(
+                type: 'kebugaran',
+              ),
+              CounselorList(
+                type: 'keluarga',
+              ),
+              CounselorList(
+                type: 'finansial',
+              ),
+              CounselorList(
+                type: 'asmara',
+              ),
+              CounselorList(
+                type: 'lainnya',
+              ),
             ],
           )),
     );

@@ -5,13 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatPage extends StatefulWidget {
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-
   final TextEditingController textEditingController = TextEditingController();
   bool isLoading;
 
@@ -19,59 +17,54 @@ class _ChatPageState extends State<ChatPage> {
   var listMessage;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     isLoading = false;
 
     readLocal();
   }
 
-  readLocal() async
-  {
+  readLocal() async {
     preferences = await SharedPreferences.getInstance();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Colors.black
-        ),
-        title: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-              text: "Melan",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '\nFMIPA 54',
-                  style: TextStyle(
-                    fontSize: 14,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: "Melan",
+                style: TextStyle(fontSize: 20, color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '\nFMIPA 54',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ]
+                ]),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(height: MediaQuery.of(context).size.height - 220,),
-            createInput()
-          ],
-        ),
-      )
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height - 220,
+              ),
+              createInput()
+            ],
+          ),
+        ));
   }
 
-
-  createInput()
-  {
+  createInput() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
-      child:Flexible(
+      child: Flexible(
         child: Container(
           decoration: BoxDecoration(
             color: Color(0xFF17B7BD),
@@ -110,14 +103,8 @@ class _ChatPageState extends State<ChatPage> {
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.transparent,
-            width: 0
-          )
-        ),
+        border: Border(top: BorderSide(color: Colors.transparent, width: 0)),
       ),
     );
   }
-
 }

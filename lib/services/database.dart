@@ -4,8 +4,9 @@ import 'package:curhatin/models/usersChat.dart';
 
 class DatabaseServices {
   final String uid;
+  final String type;
 
-  DatabaseServices({this.uid});
+  DatabaseServices({this.uid, this.type = 'User'});
 
   // get Firestore collection
   final CollectionReference userCollection =
@@ -14,6 +15,13 @@ class DatabaseServices {
   //get Admin
   final Query adminCollection =
       Firestore.instance.collection('users').where('role', isEqualTo: 'admin');
+
+  //get Types
+  Query roleCollections() {
+    return Firestore.instance
+        .collection('users')
+        .where('type', isEqualTo: this.type);
+  }
 
   // Create and update user data to firestore
   Future updateUserData(String name, String dept, int age) async {
@@ -57,8 +65,12 @@ class DatabaseServices {
   }
 
   //Get All Users
+  // Stream<List<UsersChat>> get users {
+  //   return adminCollection.snapshots().map(_usersChatList);
+  // }
+
   Stream<List<UsersChat>> get users {
-    return adminCollection.snapshots().map(_usersChatList);
+    return roleCollections().snapshots().map(_usersChatList);
   }
 
   //Get current user data
@@ -67,8 +79,8 @@ class DatabaseServices {
   }
 
   Future updateProfilePicture(String photoUrl) async {
-    return await userCollection.document(uid).updateData({
-      'photoUrl' : photoUrl
-    });
+    return await userCollection
+        .document(uid)
+        .updateData({'photoUrl': photoUrl});
   }
 }
