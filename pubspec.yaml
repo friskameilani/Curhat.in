@@ -57,10 +57,21 @@ flutter:
     - family: Amanise
       fonts:
         - asset: assets/fonts/Amanise.ttf
+    - family: AdreenaScript
+      fonts:
+        - asset: assets/fonts/AdreenaScript-Demo.ttf
+    - family: MontserratMedium
+      fonts:
+          - asset: assets/fonts/Montserrat-Medium.ttf
+    - family: OpenSans-Bold
+      fonts:
+        - asset: assets/fonts/OpenSans-Bold.ttf
+    - family: OpenSans-Regular
+      fonts:
+          - asset: assets/fonts/OpenSans-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/welcome.PNG
      - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see

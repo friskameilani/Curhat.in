@@ -23,6 +23,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('${user.email}'),
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
           itemCount: users.length,

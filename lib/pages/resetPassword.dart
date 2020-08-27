@@ -56,9 +56,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ]))),
           OutlineButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(
-                  builder: (context) => ProfilePage()));},
+              Navigator.of(context).pop();
+              },
             textColor: Colors.lightBlueAccent,
               color: Colors.white70,
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
