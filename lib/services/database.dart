@@ -30,9 +30,11 @@ class DatabaseServices {
     try {
       return querySnapshot.documents.map((doc) {
         return UsersChat(
-            name: doc.data['name'] ?? '',
-            age: doc.data['age'] ?? 0,
-            role: doc.data['role'] ?? '');
+          name: doc.data['name'] ?? '',
+          age: doc.data['age'] ?? 0,
+          role: doc.data['role'] ?? '',
+          type: doc.data['type'] ?? '',
+        );
       }).toList();
     } catch (e) {
       print(e);
