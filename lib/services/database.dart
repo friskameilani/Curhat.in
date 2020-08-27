@@ -20,6 +20,7 @@ class DatabaseServices {
   Query roleCollections() {
     return Firestore.instance
         .collection('users')
+        .where('role', isEqualTo: 'admin')
         .where('type', isEqualTo: this.type);
   }
 
