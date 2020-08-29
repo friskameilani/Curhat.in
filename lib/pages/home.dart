@@ -46,6 +46,18 @@ class _HomeState extends State<Home> {
               Tab(text: 'Asmara'),
               Tab(text: 'Lainnya')
             ]),
+//            flexibleSpace: Container(
+//              decoration: BoxDecoration(
+//                  gradient: LinearGradient(
+//                      begin: Alignment.topCenter,
+//                      end: Alignment.bottomCenter,
+//                      colors: <Color>[
+//                        Color(0xFF8FEEBF),
+//                        Color(0xFF17B7BD),
+//                      ])
+//              ),
+//            ),
+          backgroundColor: Color(0xFF17B7BD),
           ),
           body: new TabBarView(
             children: [

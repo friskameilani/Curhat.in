@@ -14,6 +14,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _email, _password;
+  bool _isHidePassword = true;
+  void _toggle() {
+    setState(() {
+      _isHidePassword = !_isHidePassword;
+    });
+  }
   String error = '';
   final linearGradient = LinearGradient(
     colors: [
@@ -51,14 +57,25 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(labelText: 'Email'),
                   ),
                   TextFormField(
+                    obscureText: _isHidePassword,
                     validator: (input) {
                       if (input.length < 6) {
                         return 'Your password needs to be at least 6 characters';
                       }
                     },
                     onSaved: (input) => _password = input,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                        labelText: 'Password',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            _toggle();
+                          },
+                          child: Icon(
+                            _isHidePassword ? Icons.visibility_off : Icons.visibility,
+                            color: _isHidePassword ? Colors.grey : Color(0xFF17B7BD),
+                          ),
+                        )
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -73,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(context, MaterialPageRoute(
                               builder: (BuildContext context) => ForgotPassword()));
                         },
-                        child: Text("Forgot password", style: TextStyle(color: Colors.grey), textAlign: TextAlign.right,),
+                        child: Text("Forgot password?", style: TextStyle(color: Colors.grey), textAlign: TextAlign.right,),
                       ),
                     ),
                   ),
@@ -144,8 +161,8 @@ class _LoginPageState extends State<LoginPage> {
         decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 125, 222, 157),
-                Color.fromARGB(255, 25, 184, 188)
+                Color(0xFF8FEEBF),
+                Color(0xFF17B7BD),
               ],
             ),
             borderRadius: BorderRadius.all(Radius.circular(80.0))),

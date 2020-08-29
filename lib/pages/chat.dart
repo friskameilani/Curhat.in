@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatPage extends StatefulWidget {
+//  final String admin;
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -64,47 +65,40 @@ class _ChatPageState extends State<ChatPage> {
   createInput() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
-      child: Flexible(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF17B7BD),
-            borderRadius: BorderRadius.all(Radius.circular(80.0)),
-//              gradient: LinearGradient(
-//                colors: [
-//                  Color.fromARGB(255, 125, 222, 157),
-//                  Color.fromARGB(255, 25, 184, 188)
-//                ],
-//              ),
-          ),
-          child: TextField(
-            decoration: new InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.more_vert),
-                  color: Colors.white,
-                  onPressed: () => null,
-                ),
-                contentPadding: EdgeInsets.only(left: 20),
-                border: new OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(
-                    const Radius.circular(20.0),
-                  ),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ),
-                ),
-                filled: true,
-                hintStyle: new TextStyle(color: Colors.white70, fontSize: 15),
-                hintText: "Type Something...",
-                fillColor: Colors.transparent),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF17B7BD),
+          borderRadius: BorderRadius.all(Radius.circular(80.0)),
+        ),
+        child: TextField(
+          decoration: new InputDecoration(
+            suffixIcon: IconButton(
+              icon: Icon(Icons.send),
+              color: Colors.white,
+              onPressed: () {},
+            ),
+            contentPadding: EdgeInsets.only(left: 20),
+            border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(20.0),
+              ),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              ),
+            ),
+            filled: true,
+            hintStyle: new TextStyle(color: Colors.white70, fontSize: 15),
+            hintText: "Type Something...",
+            fillColor: Colors.transparent),
         ),
       ),
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: Colors.transparent, width: 0)),
-      ),
+      )
     );
   }
+
 }

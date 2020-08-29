@@ -1,8 +1,11 @@
 import 'package:curhatin/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/components/themeApp.dart';
+import 'package:curhatin/models/user.dart';
 
 class ResetPasswordPage extends StatefulWidget {
+  final User user;
+  ResetPasswordPage({ this.user });
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
@@ -10,6 +13,7 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +63,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               Navigator.of(context).pop();
               },
             textColor: Colors.lightBlueAccent,
-              color: Colors.white70,
+            color: Colors.white70,
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0),),
             child: const Text(
@@ -71,6 +75,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
     );
   }
+
   Widget gantiPassword(){
     return Form(
       key: _formKey,

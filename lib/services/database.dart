@@ -58,7 +58,9 @@ class DatabaseServices {
           uid: uid,
           name: snapshot.data['name'],
           age: snapshot.data['age'],
-          role: snapshot.data['role']);
+          role: snapshot.data['role'],
+          photoUrl: snapshot.data['photoUrl']
+      );
     } catch (e) {
       print(e);
       return null;

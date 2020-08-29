@@ -10,7 +10,6 @@ import 'package:flutter/rendering.dart';
 import 'package:curhatin/components/setting.dart';
 import 'package:curhatin/components/themeApp.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,50 +26,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final AuthService _auth = AuthService();
-  SharedPreferences preferences;
-  String newPhotoUrl;
-  File imageFileAvatar;
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  File _image;
+  String url;
+  bool _isButtonDisabled = true;
+  bool _load = true;
 
   Future getImage() async {
-    File newImageFile =
+    var image =
         await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      this.imageFileAvatar = newImageFile;
-    });
-    
-    uploadPic();
-  }
-
-  Future uploadPic() async{
-    String fileName = basename(imageFileAvatar.path);
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFileAvatar);
-    StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
-    setState(() {
-      this.newPhotoUrl = fileName;
+      _image = image;
+      print('Image Path $_image');
+      _isButtonDisabled = false;
     });
   }
-//  Future<Null> logOutButton() async {
-//    // await FirebaseAuth.instance.signOut();
-//    await auth.signOut();
-//
-//    this.setState(() {
-//      isLoading = false;
-//    });
-//
-//    Navigator.of(context).pushAndRemoveUntil(
-//        MaterialPageRoute(builder: (context) => RootPage()),
-//            (Route<dynamic> route) => false);
-//  }
-
 
   Widget build(BuildContext context) {
    final user = Provider.of<User>(context);
@@ -79,80 +51,81 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, snapshot){
         if(snapshot.hasData){
           UserData userData = snapshot.data;
-          userData.photoUrl = newPhotoUrl;
-          print(userData.photoUrl);
           return Scaffold(
+            key: _scaffoldKey,
             body: Column(
               children: <Widget>[
                 Stack(
                   alignment: Alignment.center,
                   children: [
                     ThemeApp(),
-                    // ini belum bisa save foto nya
                     Positioned(
                       bottom: 0,
+                      child: (_image==null)?
+                        (userData.photoUrl==null)?
+                        Material(
+                          child:
+                          Image.network(
+                            "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          ),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(125)),
+                          clipBehavior: Clip.hardEdge,
+                        )
+                            : Material(
+                          child: Image.network(
+                            '${userData.photoUrl}',
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          ),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(125)),
+                          clipBehavior: Clip.hardEdge,
+                        )
+                            : Material(
+                          child: Image.file(
+                            _image,
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          ),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(125)),
+                          clipBehavior: Clip.hardEdge,
+                        ),
+                    ),
+                    Positioned(
+                      bottom: -5, right: 130,
                       child: Stack(
-                        children: <Widget>[
-                          (imageFileAvatar == null)
-                              ? (userData.photoUrl != null)
-                              ? Material(
-                            child: CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        Colors.lightBlueAccent),
-                                  ),
-                                  width: 100,
-                                  height: 100,
-                                  padding: EdgeInsets.all(20),
-                                ),
-                                imageUrl: userData.photoUrl,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(125)),
-                            clipBehavior: Clip.hardEdge,
-                          )
-                              : Positioned(
-                            child: Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(125)),
-                              ),
+                        children: [
+                          Container(
+                            height: 41,
+                            width: 41,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(125)),
                             ),
-                          )
-                              : Material(
-                            child: Image.file(
-                              this.imageFileAvatar,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(125)),
-                            clipBehavior: Clip.hardEdge,
                           ),
                           IconButton(
                             icon: Icon(
-                              Icons.camera_alt,
-                              size: 30,
-                              color: Colors.white54.withOpacity(0.3),
+                              Icons.edit,
+                              size: 25,
+                              color: Color(0xFF17B7BD).withOpacity(0.8),
                             ),
                             onPressed: getImage,
-                            padding: EdgeInsets.all(0),
+                            padding: EdgeInsets.only(right: 5, bottom: 5),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.grey,
-                            iconSize: 100,
-                          )
+                            iconSize: 25,
+                          ),
                         ],
-                      ),
-                    ),
+                      )
+                    )
                   ],
                 ),
                 ListTile(
@@ -167,16 +140,48 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                 ),
+                _isButtonDisabled?
                 FlatButton(
-                  onPressed: () async {
-                    await DatabaseServices(uid: user.uid).updateProfilePicture(
-                        userData.photoUrl ?? snapshot.data.photoUrl,
-                    );
-                  },
+                  onPressed: null,
                   textColor: Colors.grey,
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80.0)),
+                      borderRadius: BorderRadius.circular(80.0,)),
+                  child: const Text(
+                    'Update',
+                    textAlign: TextAlign.center,
+                  ),
+                ) :
+                RaisedButton(
+                  onPressed: () async {
+                    _scaffoldKey.currentState.showSnackBar(
+                        new SnackBar(content:
+                        new Row(
+                          children: <Widget>[
+                            new CircularProgressIndicator(),
+                            new Text("  Uploading...")
+                          ],),
+                        ));
+
+                    StorageReference firebaseStorageRef = FirebaseStorage.instance
+                        .ref().child(_image.path.toString());
+                    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+                    StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+                    String photoUrl = (await downloadUrl.ref.getDownloadURL());
+                    await DatabaseServices(uid: user.uid).updateProfilePicture(
+                        photoUrl);
+
+                    setState(() {
+                      _isButtonDisabled = true;
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+                      print('url : $photoUrl');
+                    });
+                  },
+                  color: Color(0xFF17B7BD),
+                  textColor: Colors.white,
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0,)),
                   child: const Text(
                     'Update',
                     textAlign: TextAlign.center,
@@ -205,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         } else {
-          return Text ("no data");
+          return CircularProgressIndicator();
           }
         }
     );

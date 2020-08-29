@@ -25,7 +25,7 @@ class _CounselorListState extends State<CounselorList> {
     // });
     return StreamBuilder<List<UsersChat>>(
       stream: DatabaseServices(type: widget.type).users,
-      builder: (contex, snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
           return new Text('Error');
         } else if (snapshot.data == null) {

@@ -133,7 +133,7 @@ class _TabRoutesState extends State<TabRoutes> {
                 ),
               ),
             ],
-            labelColor: Colors.greenAccent,
+            labelColor: Color(0xFF17B7BD),
             unselectedLabelColor: Colors.grey[700],
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: Colors.transparent,
