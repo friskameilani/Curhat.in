@@ -29,7 +29,12 @@ class _CounselorListState extends State<CounselorList> {
         if (snapshot.hasError) {
           return new Text('Error');
         } else if (snapshot.data == null) {
-          return Text('Still Waiting...');
+          return Container(
+            alignment: Alignment.center,
+            height: 100,
+            width: 100,
+            child: CircularProgressIndicator(),
+          );
         } else {
           return ListView.builder(
               itemCount: snapshot?.data?.length ?? 1,

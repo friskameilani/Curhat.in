@@ -72,25 +72,25 @@ class _ChatPageState extends State<ChatPage> {
         ),
         child: TextField(
           decoration: new InputDecoration(
-            suffixIcon: IconButton(
-              icon: Icon(Icons.send),
-              color: Colors.white,
-              onPressed: () {},
-            ),
-            contentPadding: EdgeInsets.only(left: 20),
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(20.0),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.send),
+                color: Colors.white,
+                onPressed: () {},
               ),
-              borderSide: BorderSide(
-                width: 0,
-                style: BorderStyle.none,
+              contentPadding: EdgeInsets.only(left: 20),
+              border: new OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  const Radius.circular(20.0),
+                ),
+                borderSide: BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
               ),
-            ),
-            filled: true,
-            hintStyle: new TextStyle(color: Colors.white70, fontSize: 15),
-            hintText: "Type Something...",
-            fillColor: Colors.transparent),
+              filled: true,
+              hintStyle: new TextStyle(color: Colors.white70, fontSize: 15),
+              hintText: "Type Something...",
+              fillColor: Colors.transparent),
         ),
       ),
       width: double.infinity,
