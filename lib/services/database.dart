@@ -25,8 +25,9 @@ class DatabaseServices {
   }
 
   // Create and update user data to firestore
-  Future updateUserData(String name, String dept, int age) async {
+  Future updateUserData(String uid, String name, String dept, int age) async {
     return await userCollection.document(uid).setData({
+      'uid': uid,
       'name': name,
       'department': dept,
       'age': age,
@@ -39,6 +40,7 @@ class DatabaseServices {
     try {
       return querySnapshot.documents.map((doc) {
         return UsersChat(
+          uid: doc.data['uid'] ?? '',
           name: doc.data['name'] ?? '',
           age: doc.data['age'] ?? 0,
           role: doc.data['role'] ?? '',
@@ -59,8 +61,7 @@ class DatabaseServices {
           name: snapshot.data['name'],
           age: snapshot.data['age'],
           role: snapshot.data['role'],
-          photoUrl: snapshot.data['photoUrl']
-      );
+          photoUrl: snapshot.data['photoUrl']);
     } catch (e) {
       print(e);
       return null;

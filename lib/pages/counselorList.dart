@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
+import 'package:curhatin/pages/chat.dart';
 import 'package:curhatin/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,8 +47,8 @@ class _CounselorListState extends State<CounselorList> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CounselorDetail(
-                                    detail: snapshot.data[index])));
+                                builder: (context) => ChatPage(
+                                    recieverData: snapshot.data[index])));
                       },
                     ),
                   ),

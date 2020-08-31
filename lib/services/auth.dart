@@ -37,9 +37,11 @@ class AuthService {
       FirebaseUser user = result.user;
       var split = email.split('@');
       String name = split[0];
+      var uid = user.uid;
 
       //create new document for the user with uid
-      await DatabaseServices(uid: user.uid).updateUserData(name, 'IPB', 20);
+      await DatabaseServices(uid: user.uid)
+          .updateUserData(uid, name, 'IPB', 20);
       return _userFromFirebase(user);
     } catch (e) {
       print(e);
