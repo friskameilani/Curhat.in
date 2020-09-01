@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
         if (user == null) {
           setState(() => error = 'Could Not Sign in with those credentials');
         } else {
-          Navigator.push(context,
+          Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
           // Home(user: user)));
         }

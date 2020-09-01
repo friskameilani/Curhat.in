@@ -95,7 +95,7 @@ class _ChatPageState extends State<ChatPage> {
                       .collection('messages')
                       .document(chatId)
                       .collection(chatId)
-                      .orderBy('timestamp', descending: true)
+                      .orderBy('timeStamp', descending: true)
                       .limit(20)
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -106,13 +106,17 @@ class _ChatPageState extends State<ChatPage> {
                                 Colors.lightBlueAccent)),
                       );
                     } else {
+                      print('Chat Id =' + chatId);
                       listMessage = snapshot.data.documents;
-                      // return ListView.builder(
-                      //   // itemBuilder: null
-                      //   // itemCount: snapshot.data.length,
-                      //   reverse: true,
-                      //   controller: scrollController,
-                      // );
+                      print('List Messages');
+                      print(listMessage);
+                      return ListView.builder(
+                        itemBuilder: (context, index) =>
+                            createItem(index, snapshot.data.documents[index]),
+                        itemCount: snapshot?.data?.documents?.length,
+                        reverse: true,
+                        controller: scrollController,
+                      );
                     }
                   },
                 ));
@@ -137,19 +141,63 @@ class _ChatPageState extends State<ChatPage> {
                 ]),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height - 220,
-              ),
-              // createListMessages(),
-              // input controllers
-              createInput(),
-              // Text(widget.recieverData.uid),
-            ],
-          ),
+        body: Column(
+          // child: Stack(
+          children: <Widget>[
+            // Container(
+            //   height: MediaQuery.of(context).size.height - 220,
+            // ),
+            createListMessages(),
+            // input controllers
+            createInput(),
+            // Text(widget.recieverData.uid),
+          ],
+          // ),
         ));
+  }
+
+  Widget createItem(int index, DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot['idFrom'] == senderData.uid) {
+      return Row(
+        children: <Widget>[
+          Container(
+            child: Text(documentSnapshot['content'],
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w500)),
+            padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+            width: 200,
+            decoration: BoxDecoration(
+                color: Colors.lightBlueAccent,
+                borderRadius: BorderRadius.circular(15.0)),
+            margin: EdgeInsets.only(
+                bottom: isLastMsgRight(index) ? 20.0 : 10.0, right: 10.0),
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.end,
+      );
+    }
+  }
+
+  isLastMsgLeft(int index) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] == senderData.uid) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isLastMsgRight(int index) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] != senderData.uid) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   createInput() {
@@ -183,11 +231,39 @@ class _ChatPageState extends State<ChatPage> {
                 fillColor: Colors.transparent),
             controller: textEditingController,
           ),
-        ),
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.transparent, width: 0)),
+          // margin: EdgeInsets.only(left: 10, right: 10),
+          // child: Container(
+          //   decoration: BoxDecoration(
+          //     color: Color(0xFF17B7BD),
+          //     borderRadius: BorderRadius.all(Radius.circular(80.0)),
+          //   ),
+          //   child: TextField(
+          //     decoration: new InputDecoration(
+          //         suffixIcon: IconButton(
+          //           icon: Icon(Icons.send),
+          //           color: Colors.white,
+          //           onPressed: () {},
+          //         ),
+          //         contentPadding: EdgeInsets.only(left: 20),
+          //         border: new OutlineInputBorder(
+          //           borderRadius: const BorderRadius.all(
+          //             const Radius.circular(20.0),
+          //           ),
+          //           borderSide: BorderSide(
+          //             width: 0,
+          //             style: BorderStyle.none,
+          //           ),
+          //         ),
+          //         filled: true,
+          //         hintStyle: new TextStyle(color: Colors.white70, fontSize: 15),
+          //         hintText: "Type Something...",
+          //         fillColor: Colors.transparent),
+          //   ),
+          //   width: double.infinity,
+          //   height: 50,
+          //   // decoration: BoxDecoration(
+          //   //   border: Border(top: BorderSide(color: Colors.transparent, width: 0)),
+          //   // ));
         ));
   }
 }

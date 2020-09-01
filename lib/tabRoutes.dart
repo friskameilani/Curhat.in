@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
+import 'package:curhatin/pages/feeds.dart';
 import 'package:curhatin/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/pages/home.dart';
@@ -8,6 +9,7 @@ import 'package:curhatin/pages/chat.dart';
 import 'package:curhatin/pages/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:curhatin/pages/feeds.dart';
 
 class TabRoutes extends StatefulWidget {
   const TabRoutes({Key key, @required this.user}) : super(key: key);
@@ -33,7 +35,12 @@ class _TabRoutesState extends State<TabRoutes> {
           }
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Text("Loading...");
+              return Container(
+                alignment: Alignment.center,
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(),
+              );
             default:
               return checkRole(snapshot.data);
           }
@@ -102,7 +109,7 @@ class _TabRoutesState extends State<TabRoutes> {
             children: [
               new Container(child: Home()),
               new Container(
-                child: ChatPage(),
+                child: FeedPage(),
               ),
               new Container(
                 child: ProfilePage(),
@@ -119,9 +126,9 @@ class _TabRoutesState extends State<TabRoutes> {
                 ),
               ),
               Tab(
-                icon: new Icon(Icons.message),
+                icon: new Icon(Icons.chrome_reader_mode),
                 child: Text(
-                  'Chat',
+                  'Articles',
                   style: TextStyle(fontSize: 12),
                 ),
               ),

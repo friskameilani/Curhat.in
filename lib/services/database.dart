@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
+import 'package:curhatin/models/article.dart';
 
 class DatabaseServices {
   final String uid;
@@ -86,5 +87,31 @@ class DatabaseServices {
     return await userCollection
         .document(uid)
         .updateData({'photoUrl': photoUrl});
+  }
+
+
+  ///////////// SEP INI GIMANA DEHH, BINGUNG, MAKANYA W GA PAKE GINIAN :( ///////////////
+
+  // get feeds collection
+  Query feedCollection() {
+    return Firestore.instance.collection('feeds');
+  }
+
+  //Map Users's Chat data to model
+  List<ArticleData> _articleDataList(QuerySnapshot querySnapshot) {
+    try {
+      return querySnapshot.documents.map((doc) {
+        return ArticleData(
+          content: doc.data['content'] ?? '',
+          date: doc.data['date'] ?? null,
+          title: doc.data['title'] ?? '',
+          uploadedBy: doc.data['uploadedBy'] ?? '',
+          photoUrl: doc.data['photoUrl'] ?? '',
+        );
+      }).toList();
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
