@@ -24,9 +24,6 @@ class _FeedPageState extends State<FeedPage> {
 
   _fetchPosts() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
       QuerySnapshot snap = await Firestore.instance.collection("feeds").orderBy("date", descending: true).getDocuments();
       setState(() {
         feeds = snap.documents;
