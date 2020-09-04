@@ -2,7 +2,8 @@ import 'package:curhatin/root.dart';
 import 'package:curhatin/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:curhatin/pages/splash.dart';
+import 'package:curhatin/pages/welcome.dart';
 import 'models/user.dart';
 
 void main() {
@@ -21,8 +22,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: RootPage(),
-      ),
+        home: SplashScreen(),
+        routes: <String, WidgetBuilder>{
+          '/root': (BuildContext context) => new RootPage(),
+          '/welcome' : (BuildContext context) => new WelcomePage()
+        },
+          ),
     );
   }
 }

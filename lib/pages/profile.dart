@@ -13,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'package:curhatin/pages/welcome.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
@@ -35,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _image = image;
       print('Image Path $_image');
-      _isButtonDisabled = false;
+      (_image != null) ? _isButtonDisabled = false : _isButtonDisabled = true;
     });
   }
 
@@ -196,7 +198,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         await _auth.signOut();
 
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => RootPage()),
+                            MaterialPageRoute(
+                                builder: (context) => WelcomePage()),
                             (Route<dynamic> route) => false);
                       },
                       textColor: Colors.grey,

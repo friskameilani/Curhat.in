@@ -37,7 +37,13 @@ class _HomeState extends State<Home> {
       length: 6,
       child: Scaffold(
           appBar: AppBar(
-            title: Text('${user.email}'),
+            centerTitle: true,
+            title: Text("Curhat.in",
+              style: TextStyle(
+                  fontFamily: "AdreenaScript",
+                  fontWeight: FontWeight.w800,
+                  fontSize: 28),
+              textWidthBasis: TextWidthBasis.parent,),
             bottom: new TabBar(isScrollable: true, tabs: [
               Tab(text: 'Akademik'),
               Tab(text: 'Kebugaran'),
