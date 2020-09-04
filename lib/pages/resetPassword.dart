@@ -1,11 +1,10 @@
-import 'package:curhatin/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/components/themeApp.dart';
 import 'package:curhatin/models/user.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   final User user;
-  ResetPasswordPage({ this.user });
+  ResetPasswordPage({this.user});
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
@@ -23,16 +22,23 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             children: [
               ThemeApp(),
               Container(
-                padding: EdgeInsets.fromLTRB(20, 50, 0, 0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios, semanticLabel: "Setting", color: Colors.white,),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Text("Setting", style: TextStyle(color: Colors.white, fontSize: 20),)
-                  ],
-                )),
+                  padding: EdgeInsets.fromLTRB(20, 50, 0, 0),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          semanticLabel: "Setting",
+                          color: Colors.white,
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      Text(
+                        "Setting",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )
+                    ],
+                  )),
             ],
           ),
           Card(
@@ -48,8 +54,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           child: Text(
                             'Ganti Password',
                             style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18),
+                                fontWeight: FontWeight.w400, fontSize: 18),
                           ),
                         ),
                         Divider(
@@ -61,11 +66,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           OutlineButton(
             onPressed: () {
               Navigator.of(context).pop();
-              },
+            },
             textColor: Colors.lightBlueAccent,
             color: Colors.white70,
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0),),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(80.0),
+            ),
             child: const Text(
               'Save',
               textAlign: TextAlign.center,
@@ -76,7 +83,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
-  Widget gantiPassword(){
+  Widget gantiPassword() {
     return Form(
       key: _formKey,
       child: Column(
@@ -86,7 +93,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               return "hello";
             },
             onSaved: (input) => _password = input,
-            decoration: InputDecoration(labelText: 'Password Lama',),
+            decoration: InputDecoration(
+              labelText: 'Password Lama',
+            ),
             obscureText: true,
             style: TextStyle(fontSize: 13),
           ),

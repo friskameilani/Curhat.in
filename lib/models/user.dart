@@ -11,5 +11,11 @@ class UserData {
   final String role;
   final String photoUrl;
 
-  UserData({this.uid, this.name, this.age, this.role, this.photoUrl,});
+  UserData({
+    this.uid,
+    this.name,
+    this.age,
+    this.role,
+    this.photoUrl,
+  });
 }

@@ -1,8 +1,5 @@
-import 'package:curhatin/models/user.dart';
 import 'package:curhatin/pages/forgotPassword.dart';
-import 'package:curhatin/pages/home.dart';
 import 'package:curhatin/tabRoutes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/services/auth.dart';
@@ -20,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
       _isHidePassword = !_isHidePassword;
     });
   }
+
   String error = '';
   final linearGradient = LinearGradient(
     colors: [
@@ -71,11 +69,14 @@ class _LoginPageState extends State<LoginPage> {
                             _toggle();
                           },
                           child: Icon(
-                            _isHidePassword ? Icons.visibility_off : Icons.visibility,
-                            color: _isHidePassword ? Colors.grey : Color(0xFF17B7BD),
+                            _isHidePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: _isHidePassword
+                                ? Colors.grey
+                                : Color(0xFF17B7BD),
                           ),
-                        )
-                    ),
+                        )),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -86,11 +87,18 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       width: double.infinity,
                       child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) => ForgotPassword()));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ForgotPassword()));
                         },
-                        child: Text("Forgot password?", style: TextStyle(color: Colors.grey), textAlign: TextAlign.right,),
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(color: Colors.grey),
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ),
                   ),
@@ -101,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 ])),
           ),
-        )
-    );
+        ));
   }
 
   Future<void> signIn() async {

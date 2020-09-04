@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
 import 'package:curhatin/pages/feeds.dart';
+import 'package:curhatin/pages/userChatList.dart';
 import 'package:curhatin/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/pages/home.dart';
 import 'package:curhatin/pages/chat.dart';
 import 'package:curhatin/pages/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:curhatin/pages/feeds.dart';
 
 class TabRoutes extends StatefulWidget {
   const TabRoutes({Key key, @required this.user}) : super(key: key);
@@ -62,7 +61,7 @@ class _TabRoutesState extends State<TabRoutes> {
               //   user: widget.user,
               // )),
               new Container(
-                child: ChatPage(),
+                child: UserChatList(),
               ),
               new Container(
                 child: ProfilePage(),

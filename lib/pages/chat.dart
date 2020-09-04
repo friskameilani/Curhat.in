@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatPage extends StatefulWidget {
 //  final String admin;
@@ -49,10 +47,20 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       chatId = '${widget.recieverData.uid}-${senderData.uid}';
     }
+    // var list = List<String>;
+
     Firestore.instance
         .collection('users')
-        .document(senderData.uid)
-        .updateData({'isChattingWith': widget.recieverData.uid});
+        .document(widget.recieverData.uid)
+        .updateData({
+      'isChattingWith': FieldValue.arrayUnion([
+        {'id': senderData.uid}
+      ])
+    });
+    // Firestore.instance
+    //     .collection('users')
+    //     .document(senderData.uid)
+    //     .updateData({'isChattingWith': widget.recieverData.uid});
   }
 
   void onMessageSent(String contentMsg) {

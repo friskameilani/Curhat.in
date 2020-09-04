@@ -1,4 +1,3 @@
-import 'package:curhatin/setup/signIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,7 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  String _email="";
+  String _email = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   showAlertDialog(BuildContext context) {
@@ -45,23 +44,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.white,
-        title: Text("Forgot Password", style: TextStyle(color: Colors.black),),),
+        title: Text(
+          "Forgot Password",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-              Text("We will mail you a link. Please click on that link to reset your password.",
-                style: TextStyle(fontSize: 16, color: Colors.black87),),
+          child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Text(
+                "We will mail you a link. Please click on that link to reset your password.",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+              ),
               Theme(
                 data: ThemeData(hintColor: Colors.black54),
                 child: Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 30),
                   child: TextFormField(
-                    validator: (value){
-                      if(value.isEmpty){
+                    validator: (value) {
+                      if (value.isEmpty) {
                         return "Please enter your email";
                       } else {
                         _email = value;
@@ -77,12 +82,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               RaisedButton(
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
-                  if(_formKey.currentState.validate()){
-                    FirebaseAuth.instance.sendPasswordResetEmail(email: _email).then((value) => print("Check your mails"));
+                  if (_formKey.currentState.validate()) {
+                    FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: _email)
+                        .then((value) => print("Check your mails"));
                     showAlertDialog(context);
                   }
                 },
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(80.0)),
                 child: Ink(
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -105,11 +113,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
               ),
-              ],
-            ),
+            ],
           ),
-        )
-      ),
+        ),
+      )),
     );
   }
 }

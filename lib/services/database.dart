@@ -89,7 +89,6 @@ class DatabaseServices {
         .updateData({'photoUrl': photoUrl});
   }
 
-
   ///////////// SEP INI GIMANA DEHH, BINGUNG, MAKANYA W GA PAKE GINIAN :( ///////////////
 
   // get feeds collection

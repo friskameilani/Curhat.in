@@ -1,8 +1,6 @@
 import 'package:curhatin/root.dart';
 import 'package:curhatin/services/auth.dart';
-import 'package:curhatin/setup/signIn.dart';
 import 'package:flutter/material.dart';
-import 'package:curhatin/pages/welcome.dart';
 import 'package:provider/provider.dart';
 
 import 'models/user.dart';
