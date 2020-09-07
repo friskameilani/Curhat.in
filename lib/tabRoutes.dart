@@ -17,7 +17,29 @@ class TabRoutes extends StatefulWidget {
   _TabRoutesState createState() => _TabRoutesState();
 }
 
-class _TabRoutesState extends State<TabRoutes> {
+User user;
+
+class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    user = Provider.of<User>(context, listen: false);
+    DatabaseServices(uid: user.uid).makeUserOnline();
+    WidgetsBinding.instance.addObserver(this);
+    // DatabaseServices(uid: user.uid).updateUserData(uid, name, dept, age)
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      DatabaseServices(uid: user.uid).makeUserOnline();
+      print('online');
+    } else {
+      DatabaseServices(uid: user.uid).makeUserOffline();
+      print('offline');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<UsersChat>>.value(

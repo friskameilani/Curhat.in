@@ -4,6 +4,7 @@ import 'package:curhatin/models/usersChat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -120,7 +121,7 @@ class _ChatPageState extends State<ChatPage> {
                       print(listMessage);
                       return ListView.builder(
                         itemBuilder: (context, index) =>
-                            createItem(index, snapshot.data.documents[index]),
+                            createItem(index, snapshot?.data?.documents[index]),
                         itemCount: snapshot?.data?.documents?.length,
                         reverse: true,
                         controller: scrollController,
@@ -183,6 +184,44 @@ class _ChatPageState extends State<ChatPage> {
         ],
         mainAxisAlignment: MainAxisAlignment.end,
       );
+    } else {
+      return Container(
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Container(
+                  child: Text(documentSnapshot['content'],
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w400)),
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15.0)),
+                  margin: EdgeInsets.only(left: 10.0),
+                )
+              ],
+            ),
+            isLastMsgLeft(index)
+                ? Container(
+                    child: Text(
+                      DateFormat("dd MMMM - hh:mm:aa").format(
+                          DateTime.fromMicrosecondsSinceEpoch(
+                              int.parse(documentSnapshot['timeStamp']))),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    margin: EdgeInsets.only(left: 20.0, top: 10.0, bottom: 5.0),
+                  )
+                : Container(),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        margin: EdgeInsets.only(bottom: 10.0),
+      );
     }
   }
 
@@ -210,7 +249,7 @@ class _ChatPageState extends State<ChatPage> {
 
   createInput() {
     return Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
+        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
         child: Container(
           decoration: BoxDecoration(
             color: Color(0xFF17B7BD),

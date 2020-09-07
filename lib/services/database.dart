@@ -33,6 +33,21 @@ class DatabaseServices {
       'department': dept,
       'age': age,
       'role': 'user',
+      'status': 'online'
+    });
+  }
+
+  Future makeUserOnline() async {
+    return await userCollection.document(uid).updateData({'status': 'online'});
+  }
+
+  Future makeUserOffline() async {
+    return await userCollection.document(uid).updateData({'status': 'offline'});
+  }
+
+  Future updateStatus(String uid) async {
+    return await userCollection.document(uid).setData({
+      'status': 'online',
     });
   }
 
