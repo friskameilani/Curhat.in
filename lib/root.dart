@@ -14,7 +14,9 @@ class RootPage extends StatelessWidget {
     if (user == null) {
       return LandingPage();
     } else {
-      return TabRoutes(user: user);
+      return TabRoutes(
+          // user: user
+          );
     }
   }
 }

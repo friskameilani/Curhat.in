@@ -13,12 +13,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool isLoading;
+  // bool isLoading;
 
   @override
   void initState() {
     super.initState();
-    isLoading = false;
+    // isLoading = false;
   }
 
   @override
@@ -38,12 +38,14 @@ class _HomeState extends State<Home> {
       child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Curhat.in",
+            title: Text(
+              "Curhat.in",
               style: TextStyle(
                   fontFamily: "AdreenaScript",
                   fontWeight: FontWeight.w800,
                   fontSize: 28),
-              textWidthBasis: TextWidthBasis.parent,),
+              textWidthBasis: TextWidthBasis.parent,
+            ),
             bottom: new TabBar(isScrollable: true, tabs: [
               Tab(text: 'Akademik'),
               Tab(text: 'Kebugaran'),
@@ -63,7 +65,7 @@ class _HomeState extends State<Home> {
 //                      ])
 //              ),
 //            ),
-          backgroundColor: Color(0xFF17B7BD),
+            backgroundColor: Color(0xFF17B7BD),
           ),
           body: new TabBarView(
             children: [

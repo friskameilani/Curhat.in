@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/models/usersChat.dart';
-import 'package:curhatin/pages/chat.dart';
-import 'package:curhatin/services/database.dart';
+import 'package:curhatin/pages/singleUserChat.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,8 +36,7 @@ class _UserChatListState extends State<UserChatList> {
         }
         return users;
       });
-      // DatabaseServices(uid: userData.uid).userData;
-      // print(userData.isChattingWith);
+
       print('List=');
       print(lists);
     } catch (e) {}
@@ -66,9 +64,7 @@ class _UserChatListState extends State<UserChatList> {
               currentlyChatting.forEach((element) {
                 id.add(element['id'].toString());
               });
-              // snapshot.data['isChattingWith']?.foreach((item) async {
-              //   currentlyChatting.add(item);
-              // });
+
               print(currentlyChatting);
               print(id);
               return StreamBuilder(
@@ -81,7 +77,13 @@ class _UserChatListState extends State<UserChatList> {
                     return Container();
                   } else {
                     List<UsersChat> users = [];
+                    print(snapshot.data.documents.map((doc) {
+                      // ignore: unnecessary_statements
+                      doc.data['uid'];
+                    }));
                     var usersMapped = snapshot.data.documents.map((doc) {
+                      print(doc.data['uid']);
+                      print('something');
                       users.add(UsersChat(
                         uid: doc.data['uid'] ?? '',
                         name: doc.data['name'] ?? '',
@@ -90,12 +92,13 @@ class _UserChatListState extends State<UserChatList> {
                         type: doc.data['type'] ?? '',
                       ));
                     });
+
                     usersMapped.toString();
                     users.forEach((element) {
                       print(element.name);
                     });
+                    print(users);
 
-                    print('helo');
                     return ListView.builder(
                       itemCount: users.length,
                       scrollDirection: Axis.vertical,
@@ -104,27 +107,19 @@ class _UserChatListState extends State<UserChatList> {
                         return Padding(
                             padding: EdgeInsets.only(top: 8.0),
                             child: Card(
-                              margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                              child: ListTile(
-                                leading:
-                                    CircleAvatar(backgroundColor: Colors.blue),
-                                title: Text(users[index].name),
-                                subtitle: Text(users[index].role),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatPage(
-                                              recieverData: users[index])));
-                                },
-                              ),
-                            ));
+                                margin:
+                                    EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                                child: SingleUserChat(
+                                  recieverUser: users[index],
+                                )));
                       },
                       controller: scrollController,
                     );
                   }
                 },
               );
+            } else {
+              return Container();
             }
           }),
     );
@@ -134,9 +129,16 @@ class _UserChatListState extends State<UserChatList> {
     // print(userData.isChattingWith);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text('Yaharo'),
-      ),
+          centerTitle: true,
+          title: Text(
+            "Curhat.in",
+            style: TextStyle(
+                fontFamily: "AdreenaScript",
+                fontWeight: FontWeight.w800,
+                fontSize: 28),
+            textWidthBasis: TextWidthBasis.parent,
+          ),
+          backgroundColor: Color(0xFF17B7BD)),
       body: Column(
         children: [getUsersChatList()],
       ),

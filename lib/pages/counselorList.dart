@@ -40,9 +40,38 @@ class _CounselorListState extends State<CounselorList> {
                   child: Card(
                     margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
                     child: ListTile(
-                      leading: CircleAvatar(backgroundColor: Colors.blue),
+                      leading: Container(
+                        constraints:
+                            BoxConstraints(maxHeight: 45, maxWidth: 45),
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Color(0xFF17B7BD),
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/user-boy.png'),
+                                backgroundColor: Colors.white,
+                                radius: 17.0,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        snapshot.data[index].status == 'online'
+                                            ? Colors.green
+                                            : Colors.red),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                       title: Text(snapshot.data[index].name),
-                      subtitle: Text(snapshot.data[index].role),
+                      subtitle: Text(snapshot.data[index].status),
                       onTap: () {
                         Navigator.push(
                             context,

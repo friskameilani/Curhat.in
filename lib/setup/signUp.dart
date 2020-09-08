@@ -43,7 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'Please type an email';
-                    }
+                    } else
+                      return null;
                   },
                   onSaved: (input) => _email = input,
                   decoration: InputDecoration(labelText: 'Email'),
@@ -52,7 +53,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   validator: (input) {
                     if (input.length < 6) {
                       return 'Your password needs to be at least 6 characters';
-                    }
+                    } else
+                      return null;
                   },
                   onSaved: (input) => _password = input,
                   decoration: InputDecoration(labelText: 'Password'),
@@ -120,27 +122,13 @@ class _SignUpPageState extends State<SignUpPage> {
     if (formState.validate()) {
       formState.save();
       try {
-        // FirebaseUser user = (await FirebaseAuth.instance
-        //         .createUserWithEmailAndPassword(
-        //             email: _email, password: _password))
-        //     .user;
         dynamic user = await auth.registerWithEmailPassword(_email, _password);
-        // CollectionReference usercollection =
-        //     (await Firestore.instance.collection('users'));
-        // await usercollection.document(user.uid).setData({
-        //   'name': user.email,
-        //   'age': 20,
-        //   'hobby': 'none',
-        //   'role': 'user',
-        // });
-        // user.sendEmailVerification();
-        // Navigator.of(context).pop();
         if (user == null) {
           setState(() => error = 'User already exists with that email');
         } else {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
-          // Home(user: user)));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => TabRoutes()),
+              (Route<dynamic> route) => false);
         }
       } catch (e) {
         print("hello");

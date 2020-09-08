@@ -11,13 +11,35 @@ import 'package:curhatin/pages/profile.dart';
 import 'package:provider/provider.dart';
 
 class TabRoutes extends StatefulWidget {
-  const TabRoutes({Key key, @required this.user}) : super(key: key);
-  final User user;
+  // const TabRoutes({Key key, @required this.user}) : super(key: key);
+  // final User user;
   @override
   _TabRoutesState createState() => _TabRoutesState();
 }
 
-class _TabRoutesState extends State<TabRoutes> {
+User user;
+
+class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    user = Provider.of<User>(context, listen: false);
+    DatabaseServices(uid: user.uid).makeUserOnline();
+    WidgetsBinding.instance.addObserver(this);
+    // DatabaseServices(uid: user.uid).updateUserData(uid, name, dept, age)
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      DatabaseServices(uid: user.uid).makeUserOnline();
+      print('online');
+    } else {
+      DatabaseServices(uid: user.uid).makeUserOffline();
+      print('offline');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<UsersChat>>.value(
@@ -25,7 +47,7 @@ class _TabRoutesState extends State<TabRoutes> {
       child: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users')
-            .document(widget.user.uid)
+            .document(user.uid)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {

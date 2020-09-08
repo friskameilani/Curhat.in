@@ -33,6 +33,22 @@ class DatabaseServices {
       'department': dept,
       'age': age,
       'role': 'user',
+      'status': 'online',
+      'isChattingWith': []
+    });
+  }
+
+  Future makeUserOnline() async {
+    return await userCollection.document(uid).updateData({'status': 'online'});
+  }
+
+  Future makeUserOffline() async {
+    return await userCollection.document(uid).updateData({'status': 'offline'});
+  }
+
+  Future updateStatus(String uid) async {
+    return await userCollection.document(uid).setData({
+      'status': 'online',
     });
   }
 
@@ -46,6 +62,7 @@ class DatabaseServices {
           age: doc.data['age'] ?? 0,
           role: doc.data['role'] ?? '',
           type: doc.data['type'] ?? '',
+          status: doc.data['status'] ?? '',
         );
       }).toList();
     } catch (e) {
