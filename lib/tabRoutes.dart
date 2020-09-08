@@ -11,8 +11,8 @@ import 'package:curhatin/pages/profile.dart';
 import 'package:provider/provider.dart';
 
 class TabRoutes extends StatefulWidget {
-  const TabRoutes({Key key, @required this.user}) : super(key: key);
-  final User user;
+  // const TabRoutes({Key key, @required this.user}) : super(key: key);
+  // final User user;
   @override
   _TabRoutesState createState() => _TabRoutesState();
 }
@@ -47,7 +47,7 @@ class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
       child: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users')
-            .document(widget.user.uid)
+            .document(user.uid)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {

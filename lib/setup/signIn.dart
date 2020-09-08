@@ -145,10 +145,10 @@ class _LoginPageState extends State<LoginPage> {
                     ]);
               });
         } else {
-          // Navigator.pushReplacement(context,
-          //     MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
+          // Navigator.pushReplacement(
+          //     context, MaterialPageRoute(builder: (context) => TabRoutes()));
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => TabRoutes(user: user)),
+              MaterialPageRoute(builder: (context) => TabRoutes()),
               (Route<dynamic> route) => false);
         }
       } catch (e) {
