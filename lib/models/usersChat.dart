@@ -4,6 +4,7 @@ class UsersChat {
   final int age;
   final String role;
   final String type;
+  final String status;
 
-  UsersChat({this.uid, this.name, this.age, this.role, this.type});
+  UsersChat({this.uid, this.name, this.age, this.role, this.type, this.status});
 }

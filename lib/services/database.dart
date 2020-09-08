@@ -33,7 +33,8 @@ class DatabaseServices {
       'department': dept,
       'age': age,
       'role': 'user',
-      'status': 'online'
+      'status': 'online',
+      'isChattingWith': []
     });
   }
 
@@ -61,6 +62,7 @@ class DatabaseServices {
           age: doc.data['age'] ?? 0,
           role: doc.data['role'] ?? '',
           type: doc.data['type'] ?? '',
+          status: doc.data['status'] ?? '',
         );
       }).toList();
     } catch (e) {

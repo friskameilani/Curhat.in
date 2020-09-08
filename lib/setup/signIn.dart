@@ -118,19 +118,41 @@ class _LoginPageState extends State<LoginPage> {
       // TODO: Login to Firebase
       formState.save();
       try {
-        // FirebaseUser user = (await FirebaseAuth.instance
-        //         .signInWithEmailAndPassword(email: _email, password: _password))
-        //     .user;
         dynamic user = await _auth.signInWithEmailPassword(_email, _password);
         if (user == null) {
-          setState(() => error = 'Could Not Sign in with those credentials');
+          // setState(() => error = 'Could Not Sign in with those credentials');
+          return showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button!
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text('Error Logging In'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text(
+                              'Sorry, we could not sign in with those credentials'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ]);
+              });
         } else {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
-          // Home(user: user)));
+          // Navigator.pushReplacement(context,
+          //     MaterialPageRoute(builder: (context) => TabRoutes(user: user)));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => TabRoutes(user: user)),
+              (Route<dynamic> route) => false);
         }
       } catch (e) {
-        print("hello");
+        print(e);
       }
     }
   }

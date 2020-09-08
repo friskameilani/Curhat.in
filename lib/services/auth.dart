@@ -48,22 +48,22 @@ class AuthService {
     }
   }
 
-  Future signInAnon() async {
-    try {
-      AuthResult result = await _auth.signInAnonymously();
-      FirebaseUser user = result.user;
-      return _userFromFirebase(user);
-      // return user;
-    } catch (e) {
-      return null;
-    }
-  }
+  // Future signInAnon() async {
+  //   try {
+  //     AuthResult result = await _auth.signInAnonymously();
+  //     FirebaseUser user = result.user;
+  //     return _userFromFirebase(user);
+  //     // return user;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
   Future signOut() async {
     try {
       return await _auth.signOut();
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 }

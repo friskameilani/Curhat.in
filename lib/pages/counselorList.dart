@@ -42,7 +42,7 @@ class _CounselorListState extends State<CounselorList> {
                     child: ListTile(
                       leading: CircleAvatar(backgroundColor: Colors.blue),
                       title: Text(snapshot.data[index].name),
-                      subtitle: Text(snapshot.data[index].role),
+                      subtitle: Text(snapshot.data[index].status),
                       onTap: () {
                         Navigator.push(
                             context,
