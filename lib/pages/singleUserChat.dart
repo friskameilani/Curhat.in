@@ -50,7 +50,33 @@ class _SingleUserChatState extends State<SingleUserChat> {
           print(docList.last.data);
 
           return ListTile(
-            leading: CircleAvatar(backgroundColor: Colors.blue),
+            leading: Container(
+              constraints: BoxConstraints(maxHeight: 45, maxWidth: 45),
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color(0xFF17B7BD),
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/user-boy.png'),
+                      backgroundColor: Colors.white,
+                      radius: 17.0,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      height: 10,
+                      width: 10,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: widget.recieverUser.status == 'online'
+                              ? Colors.green
+                              : Colors.red),
+                    ),
+                  )
+                ],
+              ),
+            ),
             title: Text(widget.recieverUser.name),
             subtitle: Text(docList.last.data['content']),
             onTap: () {

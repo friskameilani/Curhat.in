@@ -129,9 +129,16 @@ class _UserChatListState extends State<UserChatList> {
     // print(userData.isChattingWith);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text('Yaharo'),
-      ),
+          centerTitle: true,
+          title: Text(
+            "Curhat.in",
+            style: TextStyle(
+                fontFamily: "AdreenaScript",
+                fontWeight: FontWeight.w800,
+                fontSize: 28),
+            textWidthBasis: TextWidthBasis.parent,
+          ),
+          backgroundColor: Color(0xFF17B7BD)),
       body: Column(
         children: [getUsersChatList()],
       ),

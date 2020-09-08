@@ -196,8 +196,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     OutlineButton(
                         onPressed: () async {
                           try {
+                            print(user.uid);
                             DatabaseServices(uid: user.uid).makeUserOffline();
                             // await _auth.signOut();
+
                             print('this happened');
                             await FirebaseAuth.instance.signOut().then(
                                 (value) => Navigator.of(context)
