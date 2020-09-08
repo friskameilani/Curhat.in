@@ -1,6 +1,8 @@
+import 'package:curhatin/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:curhatin/components/themeApp.dart';
 import 'package:curhatin/models/user.dart';
+import 'package:curhatin/locator.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   final User user;
@@ -10,8 +12,21 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  String _password;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var _passwordController = TextEditingController();
+  var _newPasswordController = TextEditingController();
+  var _repeatPasswordController = TextEditingController();
+
+  var _formKey = GlobalKey<FormState>();
+
+  bool checkCurrentPasswordValid = true;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _newPasswordController.dispose();
+    _repeatPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +78,24 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         ),
                         gantiPassword(),
                       ]))),
-          OutlineButton(
-            onPressed: () {
-              Navigator.of(context).pop();
+          RaisedButton(
+            onPressed: () async {
+              var authService = locator.get<AuthService>();
+
+              checkCurrentPasswordValid =
+              await authService.validateCurrentPassword(
+                  _passwordController.text);
+
+              setState(() {});
+
+              if (_formKey.currentState.validate() && checkCurrentPasswordValid) {
+                authService.updateUserPassword(
+                    _newPasswordController.text);
+                Navigator.pop(context);
+              }
             },
-            textColor: Colors.lightBlueAccent,
-            color: Colors.white70,
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(80.0),
-            ),
-            child: const Text(
-              'Save',
-              textAlign: TextAlign.center,
-            ),
-          ),
+            child: Text("Save Profile"),
+          )
         ],
       ),
     );
@@ -89,34 +107,32 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: Column(
         children: [
           TextFormField(
-            validator: (input) {
-              return "hello";
-            },
-            onSaved: (input) => _password = input,
             decoration: InputDecoration(
-              labelText: 'Password Lama',
+              hintText: "Password",
+              errorText: checkCurrentPasswordValid
+                  ? null
+                  : "Please double check your current password",
+            ),
+            controller: _passwordController,
+          ),
+          TextFormField(
+            decoration:
+            InputDecoration(hintText: "New Password"),
+            controller: _newPasswordController,
+            obscureText: true,
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+              hintText: "Repeat Password",
             ),
             obscureText: true,
-            style: TextStyle(fontSize: 13),
-          ),
-          TextFormField(
-            validator: (input) {
-              return "hello";
+            controller: _repeatPasswordController,
+            validator: (value) {
+              return _newPasswordController.text == value
+                  ? null
+                  : "Please validate your entered password";
             },
-            onSaved: (input) => _password = input,
-            decoration: InputDecoration(labelText: 'Password Baru'),
-            obscureText: true,
-            style: TextStyle(fontSize: 13),
-          ),
-          TextFormField(
-            validator: (input) {
-              return "hello";
-            },
-            onSaved: (input) => _password = input,
-            decoration: InputDecoration(labelText: 'Ketik Ulang Password Baru'),
-            obscureText: true,
-            style: TextStyle(fontSize: 13),
-          ),
+          )
         ],
       ),
     );

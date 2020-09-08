@@ -66,4 +66,32 @@ class AuthService {
       print(e);
     }
   }
+
+  Future<bool> validatePassword(String password) async {
+    var firebaseUser = await _auth.currentUser();
+
+    var authCredentials = EmailAuthProvider.getCredential(
+        email: firebaseUser.email, password: password);
+    try {
+      var authResult = await firebaseUser
+          .reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> updatePassword(String password) async {
+    var firebaseUser = await _auth.currentUser();
+    firebaseUser.updatePassword(password);
+  }
+
+  Future<bool> validateCurrentPassword(String password) async {
+    return await validatePassword(password);
+  }
+
+  void updateUserPassword(String password) {
+    updatePassword(password);
+  }
 }
