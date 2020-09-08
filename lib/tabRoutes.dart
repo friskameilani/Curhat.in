@@ -73,18 +73,16 @@ class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
   checkRole(DocumentSnapshot snapshot) {
     if (snapshot.data['role'] == 'admin') {
       return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              // new Container(
-              //     child: Home(
-              //   user: widget.user,
-              // )),
               new Container(
                 child: UserChatList(),
               ),
+               new Container(
+                   child: FeedPage()),
               new Container(
                 child: ProfilePage(),
               ),
@@ -92,17 +90,17 @@ class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
           ),
           bottomNavigationBar: new TabBar(
             tabs: [
-              // Tab(
-              //   icon: new Icon(Icons.home),
-              //   child: Text(
-              //     'Home',
-              //     style: TextStyle(fontSize: 12),
-              //   ),
-              // ),
               Tab(
                 icon: new Icon(Icons.message),
                 child: Text(
                   'Chat',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              Tab(
+                icon: new Icon(Icons.chrome_reader_mode),
+                child: Text(
+                  'Articles',
                   style: TextStyle(fontSize: 12),
                 ),
               ),
@@ -114,7 +112,7 @@ class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
                 ),
               ),
             ],
-            labelColor: Colors.greenAccent,
+            labelColor: Color(0xFF17B7BD),
             unselectedLabelColor: Colors.grey[700],
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: Colors.transparent,
@@ -128,7 +126,9 @@ class _TabRoutesState extends State<TabRoutes> with WidgetsBindingObserver {
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              new Container(child: Home()),
+              new Container(
+                  child: Home()
+              ),
               new Container(
                 child: FeedPage(),
               ),
