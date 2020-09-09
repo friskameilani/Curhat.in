@@ -100,9 +100,11 @@ class DatabaseServices {
     return userCollection.document(uid).snapshots().map(_userDataSnapshot);
   }
 
-  Future updateProfilePicture(String photoUrl) async {
-    return await userCollection
-        .document(uid)
-        .updateData({'photoUrl': photoUrl});
+  Future updateProfilePicture(String photoUrl, String name, String department) async {
+    return await userCollection.document(uid).updateData({
+      'photoUrl': photoUrl,
+      'name' : name,
+      'department' : department
+    });
   }
 }

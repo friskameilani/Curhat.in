@@ -7,6 +7,7 @@ import 'package:curhatin/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:curhatin/models/user.dart';
 import 'package:curhatin/pages/postArticle.dart';
+import 'package:intl/intl.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _FeedPageState extends State<FeedPage> {
     try {
       QuerySnapshot snap = await Firestore.instance
           .collection("feeds")
-          .orderBy("date", descending: true)
+          .orderBy("timeStamp", descending: true)
           .getDocuments();
       setState(() {
         feeds = snap.documents;
@@ -71,6 +72,10 @@ class _FeedPageState extends State<FeedPage> {
                     child: ListView.builder(
                         itemCount: feeds.length,
                         itemBuilder: (context, i) {
+                          var date = DateTime.fromMillisecondsSinceEpoch(feeds[i].data["timeStamp"]);
+                          var formattedDate = DateFormat.yMMMMd().add_jm().format(date);
+                          var timeStampNow = DateTime.now().millisecondsSinceEpoch;
+                          var diff = timeStampNow - feeds[i].data["timeStamp"];
                           return Container(
                               height: 100,
                               child: Padding(
@@ -92,42 +97,35 @@ class _FeedPageState extends State<FeedPage> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    subtitle: Text(
-                                        timeago.format(feeds[i].data["date"].toDate())
-                                    ),
+                                    subtitle: (diff < 86400000)?
+                                        Text(timeago.format(date))
+                                        : Text(formattedDate)
+                                    ,
                                     onTap: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ArticlePage(detail: feeds[i]))
+                                                  ArticlePage(detail: feeds[i], date: formattedDate),)
                                       );
                                       },
                                   ),
                                 ),
                               ));
                         })),
-                bottomNavigationBar: (userData.role == 'admin') ?
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFF17B7BD),
-                    radius: 30,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PostArticle(),
-                            fullscreenDialog: true,
-                          ),
-                        );
-                      },
-                    ),
-                  )
+                floatingActionButton: (userData.role == 'admin') ?
+                FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PostArticle(),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.add),
+                    backgroundColor: Color(0xFF17B7BD)
                 ) : null
             );
           } else {

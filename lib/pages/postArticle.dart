@@ -78,7 +78,7 @@ class _PostArticleState extends State<PostArticle> {
           "photoUrl": photoUrl,
           "title": _titleInputController.text,
           "content": _contentInputController.text,
-          "date": DateTime.now(),
+          "date": DateTime.now().millisecondsSinceEpoch,
           "uploadedBy": user.email
         });
 
@@ -154,24 +154,35 @@ class _PostArticleState extends State<PostArticle> {
                 backgroundColor: Colors.grey,
               ) : Container(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: TextField(
                   controller: _titleInputController,
                   decoration: InputDecoration(
-                    hintText: "Write Title here",
+                      labelText: "Write Title here",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  controller: _contentInputController,
-                  decoration: InputDecoration(
-                    hintText: "Write Caption here",
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 350
                   ),
-                ),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: _contentInputController,
+                    decoration: InputDecoration(
+                      labelText: "Write Caption here",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                    ),
+                  ),
+                )
               ),
               SizedBox(
                 height: 20,
@@ -189,6 +200,9 @@ class _PostArticleState extends State<PostArticle> {
                   'Post',
                   textAlign: TextAlign.center,
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
             ],
           ),

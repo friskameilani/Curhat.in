@@ -5,10 +5,10 @@ class Article {
 
 class ArticleData {
   final String content;
-  final date;
+  final int timeStamp;
   final String title;
   final String uploadedBy;
   final String photoUrl;
 
-  ArticleData({this.content, this.date, this.title, this.uploadedBy, this.photoUrl,});
+  ArticleData({this.content, this.timeStamp, this.title, this.uploadedBy, this.photoUrl,});
 }

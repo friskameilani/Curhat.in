@@ -11,6 +11,7 @@ class UserData {
   final String role;
   final String photoUrl;
   final String status;
+  final String department;
 
   UserData({
     this.uid,
@@ -19,5 +20,6 @@ class UserData {
     this.role,
     this.photoUrl,
     this.status,
+    this.department
   });
 }
